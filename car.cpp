@@ -696,6 +696,9 @@ void Car::RenderAllParts(bool usecolor, int carColor) const{
   //glScalef(-0.05,0.05,-0.05);
   glScalef(-0.5,0.5,-0.5);// patch: riscaliamo la mesh di 1/10
 
+
+
+
   drawParabrezza();
 
   if (!useEnvmap)
