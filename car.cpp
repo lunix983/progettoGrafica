@@ -712,7 +712,6 @@ void Car::RenderAllParts(bool usecolor, int carColor) const{
   carlinga.RenderNxV(); // rendering delle mesh carlinga usando normali per vertice
   if (usecolor) glEnable(GL_LIGHTING);
   
-  //if (usecolor) glColor3f(0.9,0.9,0.9); // colore grigio
 
 
   for (int i=0; i<2; i++) {
