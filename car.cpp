@@ -104,7 +104,6 @@ void SetupWheelTexture(Point3 min, Point3 max){
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_TEXTURE_GEN_S);
   glEnable(GL_TEXTURE_GEN_T);
-  
   // ulilizzo le coordinate OGGETTO
   // cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
   // in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
@@ -120,10 +119,8 @@ void SetupWheelTexture(Point3 min, Point3 max){
 
 
 void SetupConeTexture(){
-
 	// facciamo binding con la texture 1
 		glBindTexture(GL_TEXTURE_2D,9);
-
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_TEXTURE_GEN_S); // abilito la generazione automatica delle coord texture S e T
 		glEnable(GL_TEXTURE_GEN_T);
@@ -131,8 +128,6 @@ void SetupConeTexture(){
 		glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_SPHERE_MAP);
 		glColor3f(1,1,1); // metto il colore neutro (viene moltiplicato col colore texture, componente per componente)
 		glDisable(GL_LIGHTING);
-
-
 }
 
 void SetupTrackTexture(Point3 min, Point3 max){
@@ -140,7 +135,6 @@ void SetupTrackTexture(Point3 min, Point3 max){
 	  glEnable(GL_TEXTURE_2D);
 	  glEnable(GL_TEXTURE_GEN_S);
 	  glEnable(GL_TEXTURE_GEN_T);
-
 	  // ulilizzo le coordinate OGGETTO
 	  // cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
 	  // in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
@@ -152,8 +146,6 @@ void SetupTrackTexture(Point3 min, Point3 max){
 	  float t[4]={0,ty,0,  - min.Y()*ty };
 	  glTexGenfv(GL_S, GL_OBJECT_PLANE, s);
 	  glTexGenfv(GL_T, GL_OBJECT_PLANE, t);
-
-
 }
 
 
@@ -194,9 +186,9 @@ bool checkWin(){
 		return false;
 	}
 }
-
+/*Questo metodo conta quanti oggetti cono NON sono stati colpiti*/
 int Car::contaColpito(){
-	int soglia = 5;
+	//int soglia = 5;
 	int count = 0;
 	if(!colpitoCone1){
 		count++;
@@ -277,29 +269,6 @@ void Car::DoStep(){
   py+=vy;
   pz+=vz;
 
-
-
-//  float carCentZ = (carlinga.Center().Z()+1+pz);
-//  float carCentX = (carlinga.Center().X()+1+px);
-//  float treeCentX = (cone1.Center().X()+2.75);
-//  float treeCentZ = cone1.Center().Z();
-//
-//  float cone2CentX = (cone2.Center().X() + 22.75);
-//  float cone2CentZ = cone2.Center().Z() - 2.0;
-
-//  float treeCentX = tree.Center().X()/0.12;
-//  float treeCentZ = tree.Center().Z()/0.14;
-//  float treeMaxX = (tree.bbmax.X()+2.75)*0.12;
-//  float treeMinX = (tree.bbmin.X()+2.75)*0.12;
-//  float treeMinZ = tree.bbmin.Z()*0.14;
-//  float treeMaxZ = tree.bbmax.Z()*0.14;
-
-//  float treeMinX = cone1.bbmin.X();
-//  float treeMinZ = cone1.bbmin.Z();
-//  float treeMaxX = cone1.bbmax.X();
-//  float treeMaxZ = cone1.bbmax.Z();
-
-
   float carMinX = (carlinga.bbmin.X() / 3) +px;
   float carMinZ = (carlinga.bbmin.Z() / 3) +pz;
   float carMaxX = (carlinga.bbmax.X() / 3) +px;
@@ -315,10 +284,7 @@ void Car::DoStep(){
 	  cout << "HAI VINTO" << endl;
   }
 
-
 } 
-
-
 
 //void drawCube(); // questa e' definita altrove (quick hack)
 void drawAxis(); // anche questa
@@ -330,12 +296,10 @@ void drawCone1() {
         glScalef(0.12,0.15,0.14);
         cone1.setPosCone(22.75,-2.0);
         cone1.idCono = 1;
-        //glRotatef(90,0,1,0);
-        //SetupTreeTexture(tree.bbmin,tree.bbmax);
-        //tree.ComputeBoundingBox();
-        SetupConeTexture();
+       // SetupConeTexture();
         cone1.RenderNxV();
         glPopMatrix();
+        SetupConeTexture();
 }
 
 void drawCone2() {
@@ -344,13 +308,10 @@ void drawCone2() {
         glTranslatef(100,0.05,-1.0);
         glScalef(0.12,0.15,0.14);
         cone2.setPosCone(100,-1.0);
-        //int * id = 2;
         cone2.idCono = 2;
-        //glRotatef(90,0,1,0);
-        //SetupTreeTexture(tree.bbmin,tree.bbmax);
-        //tree.ComputeBoundingBox()
         cone2.RenderNxV();
         glPopMatrix();
+        SetupConeTexture();
 }
 
 void drawCone3() {
@@ -359,12 +320,10 @@ void drawCone3() {
         glTranslatef(100,0.05,65);
         glScalef(0.12,0.15,0.14);
         cone3.setPosCone(100,65);
-                cone3.idCono = 3;
-        //glRotatef(90,0,1,0);
-        //SetupTreeTexture(tree.bbmin,tree.bbmax);
-        //tree.ComputeBoundingBox();
+        cone3.idCono = 3;
         cone3.RenderNxV();
         glPopMatrix();
+        SetupConeTexture();
 }
 
 void drawCone4() {
@@ -373,12 +332,10 @@ void drawCone4() {
         glTranslatef(-3.0,0.05,20.0);
         glScalef(0.12,0.15,0.14);
         cone4.setPosCone(-3.0,20.0);
-                cone4.idCono = 4;
-        //glRotatef(90,0,1,0);
-        //SetupTreeTexture(tree.bbmin,tree.bbmax);
-        //tree.ComputeBoundingBox();
+        cone4.idCono = 4;
         cone4.RenderNxV();
         glPopMatrix();
+        SetupConeTexture();
 }
 
 
@@ -388,12 +345,10 @@ void drawCone5() {
         glTranslatef(-40.0,0.05,2.0);
         glScalef(0.12,0.15,0.14);
         cone5.setPosCone(-40,2.0);
-                cone5.idCono = 5;
-        //glRotatef(90,0,1,0);
-        //SetupTreeTexture(tree.bbmin,tree.bbmax);
-        //tree.ComputeBoundingBox();
+        cone5.idCono = 5;
         cone5.RenderNxV();
         glPopMatrix();
+        SetupConeTexture();
 }
 
 void drawCone6() {
@@ -412,18 +367,10 @@ void drawCone6() {
 }
 
 void drawPista () {
-
-
         glPushMatrix();
         glColor3f(0.3,0.3,0.3);
         glScalef(0.75, 1.0, 0.75);
         glTranslatef(0,0.01,0);
-        //pista.RenderNxV();
-//        cout << "bbmin X: " << pista.bbmin.X() << endl;
-//        cout << "bbmin Z: " << pista.bbmin.Z() << endl;
-//        cout << "bbmax X: " << pista.bbmax.X() << endl;
-//        cout << "bbmax Z: " << pista.bbmax.Z() << endl;
-//        SetupTrackTexture(pista.bbmin,pista.bbmax);
         pista.RenderNxF();
         glPopMatrix();
 
@@ -433,11 +380,9 @@ void SetupParabrezzaTexture(Point3 min, Point3 max){
 
 	// facciamo binding con la texture 1
 		glBindTexture(GL_TEXTURE_2D,11);
-
 		glEnable(GL_TEXTURE_2D);
-		  glEnable(GL_TEXTURE_GEN_S);
-		  glEnable(GL_TEXTURE_GEN_T);
-
+		glEnable(GL_TEXTURE_GEN_S);
+		glEnable(GL_TEXTURE_GEN_T);
 		  glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
 		  glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
 		  float tz=1.0/(max.Z() - min.Z());
@@ -455,30 +400,23 @@ void drawParabrezza () {
         // abilita funzione blend alpha
         glEnable (GL_BLEND); glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glColor4f(1,1,1,0.5); // usa color4f per avere l'ultimo parametro che imposta l'opacita'
-//        glScalef(0.75, 1.0, 0.75);
-//        glTranslatef(0,0.01,0);
-        //SetupParabrezzaTexture(vetri.bbmin,vetri.bbmax);
         vetri.RenderNxF();
         glPopMatrix();
 }
 
 void SetupBoard(Point3 min, Point3 max){
-
   glBindTexture(GL_TEXTURE_2D,8);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_TEXTURE_GEN_S);
   glEnable(GL_TEXTURE_GEN_T);
-
   glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
   glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
   float tz=1.0/(max.Z() - min.Z());
-   float sx=1.0/(max.X() - min.X());
+  float sx=1.0/(max.X() - min.X());
   float t[4]={0,0,tz,   -min.Z()*tz };
   float s[4]={-sx,0,0, min.X()*sx };
   glTexGenfv(GL_S, GL_OBJECT_PLANE, s);
   glTexGenfv(GL_T, GL_OBJECT_PLANE, t);
-
-
 }
 
 void drawTabellone () {
@@ -495,10 +433,7 @@ void drawBoard () {
         glTranslatef(0.1,-0.2,0.0);
         glScalef(0.35, 0.39, 0.38);
         glRotatef(270,0.0,1.0,0.0);
-        //glTranslatef(0,0.01,0);
-        //pista.RenderNxV();
         SetupBoard(boardFoto.bbmin,boardFoto.bbmax);
-
         boardFoto.RenderNxF();
         glPopMatrix();
 }
@@ -536,37 +471,6 @@ void drawVia() {
 
         glPopMatrix();
 }
-
-//void SetupTreeTexture(Point3 min, Point3 max)
-//{
-//	glBindTexture(GL_TEXTURE_2D,4);
-//	  glEnable(GL_TEXTURE_2D);
-//	  glEnable(GL_TEXTURE_GEN_S);
-//	  glEnable(GL_TEXTURE_GEN_T);
-//
-//	  glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-//	  glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-//	  float tz=1.0/(max.Z() - min.Z());
-//	   float sx=1.0/(max.X() - min.X());
-//	  float t[4]={0,0,tz,   -min.Z()*tz };
-//	  float s[4]={-sx,0,0, min.X()*sx };
-//	  glTexGenfv(GL_S, GL_OBJECT_PLANE, s);
-//	  glTexGenfv(GL_T, GL_OBJECT_PLANE, t);
-//}
-
-
-
-/*
-// diesgna una ruota come due cubi intersecati a 45 gradi
-void drawWheel(){
-  glPushMatrix();
-  glScalef(1, 1.0/sqrt(2.0),  1.0/sqrt(2.0));
-  drawCube();
-  glRotatef(45,  1,0,0);
-  drawCube();
-  glPopMatrix();
-}
-*/
 
 void Controller::Init(){
   for (int i=0; i<NKEYS; i++) key[i]=false;
@@ -606,53 +510,9 @@ void Car::Init(){
   grip = 0.45; // quanto il facing macchina si adegua velocemente allo sterzo
 }
 
-/*
-//vecchio codice ora commentato
-// disegna carlinga composta da 1 cubo traslato e scalato
-static void drawCarlinga(){
-  // disegna carlinga
-  
-  glColor3f(1,0,0);
-  
-  // sono nel frame CAR
-  glPushMatrix();
-  
-  // vado al frame pezzo_A
-  glScalef(0.25 , 0.14 , 1);
-  drawCube();  
-  
-  // torno al frame CAR
-  glPopMatrix();
-  
-  // vado frame pezzo_B
-  glPushMatrix();
-  glTranslatef(0,-0.11,-0.95);
-  glScalef(0.6, 0.05, 0.15);
-  drawCube();
-  glPopMatrix();
- 
-   // vado frame pezzo_C
-  glPushMatrix();
-  glTranslatef(0,-0.11,0);
-  glScalef(0.6, 0.05, 0.3);
-  drawCube();
-  glPopMatrix();
-  
-  // vado frame pezzo_D
-  glPushMatrix();
-  glRotatef(-5,1,0,0);
-  glTranslatef(0,+0.2,+0.95);
-  glScalef(0.6, 0.05, 0.3);
-  drawCube();
-  glPopMatrix();
-}
-*/
-
 // attiva una luce di openGL per simulare un faro della macchina
 void Car::DrawHeadlight(float x, float y, float z, int lightN, bool useHeadlight) const{
   int usedLight=GL_LIGHT1 + lightN;
-  
-
 
   if(useHeadlight)
   {
@@ -688,17 +548,11 @@ void Car::DrawHeadlight(float x, float y, float z, int lightN, bool useHeadlight
 // (se usecolor e' falso, NON sovrascrive il colore corrente
 //  e usa quello stabilito prima di chiamare la funzione)
 void Car::RenderAllParts(bool usecolor, int carColor) const{
-  
-  // drawCarlinga(); // disegna la carliga con pochi parallelepidedi
-  
+  //drawCarlinga(); // disegna la carliga con pochi parallelepidedi
   // disegna la carliga con una mesh
   glPushMatrix();
-  //glScalef(-0.05,0.05,-0.05);
   glScalef(-0.5,0.5,-0.5);// patch: riscaliamo la mesh di 1/10
-
-
-
-
+  // disegna il parabrezza
   drawParabrezza();
 
   if (!useEnvmap)
@@ -708,12 +562,10 @@ void Car::RenderAllParts(bool usecolor, int carColor) const{
   else {
     if (usecolor) SetupEnvmapTexture(carColor);
   }
-  //carlinga.ComputeBoundingBox();
+
   carlinga.RenderNxV(); // rendering delle mesh carlinga usando normali per vertice
   if (usecolor) glEnable(GL_LIGHTING);
   
-
-
   for (int i=0; i<2; i++) {
     // i==0 -> disegno ruote destre.
     // i==1 -> disegno ruote sinistre.
@@ -760,45 +612,7 @@ void Car::RenderAllParts(bool usecolor, int carColor) const{
     //wheelBR2.RenderNxV();
     glPopMatrix();
   }
-/*
-  // modo vecchio: disegno le ruote senza usare le mesh
-  // ruota posteriore D
-  glPushMatrix();
-  glTranslatef( 0.58,+raggioRuotaP-0.28,+0.8);
-  glRotatef(mozzoP,1,0,0);
-  // SONO NELLO SPAZIO RUOTA
-  glScalef(0.1, raggioRuotaP, raggioRuotaP);
-  drawWheel();
-  glPopMatrix();
-  
-  // ruota posteriore S
-  glPushMatrix();
-  glTranslatef(-0.58,+raggioRuotaP-0.28,+0.8);
-  glRotatef(mozzoP,1,0,0);
-  glScalef(0.1, raggioRuotaP, raggioRuotaP);
-  drawWheel();
-  glPopMatrix();
- 
-  // ruota anteriore D
-  glPushMatrix();
-  glTranslatef( 0.58,+raggioRuotaA-0.28,-0.55);
-  glRotatef(sterzo,0,1,0);
-  glRotatef(mozzoA,1,0,0);
-  glScalef(0.08, raggioRuotaA, raggioRuotaA);
-  drawWheel();
-  glPopMatrix();
-  
-  // ruota anteriore S
-  glPushMatrix();
-  glTranslatef(-0.58,+raggioRuotaA-0.28,-0.55);
-  glRotatef(sterzo,0,1,0);
-  glRotatef(mozzoA,1,0,0);
-  drawAxis();
-  glScalef(0.08, raggioRuotaA, raggioRuotaA);
-  drawWheel();
-  glPopMatrix(); 
-  */
-  
+
   glPopMatrix(); 
 }
 

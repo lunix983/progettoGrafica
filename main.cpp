@@ -379,19 +379,13 @@ void renderFirtScene(SDL_Window *win, int color){
 
 /* Esegue il Rendering della scena */
 void renderingGame(SDL_Window *win){
-  
   // un frame in piu'!!!
   fpsNow++;
-  
   glLineWidth(3); // linee larghe
-     
   // settiamo il viewport
   glViewport(0,0, displayWidth - displayWidth/4, displayHeight);
-  
   // colore sfondo = bianco
   glClearColor(1,1,1,1);
-
-
   // settiamo la matrice di proiezione
   glMatrixMode( GL_PROJECTION );
   glLoadIdentity();
@@ -400,60 +394,40 @@ void renderingGame(SDL_Window *win){
 		0.2,//distanza del NEAR CLIPPING PLANE in coordinate vista
 		1000  //distanza del FAR CLIPPING PLANE in coordinate vista
   );
-
   glMatrixMode( GL_MODELVIEW ); 
   glLoadIdentity();
-  
   // riempe tutto lo screen buffer di pixel color sfondo
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-  //drawAxis(); // disegna assi frame VISTA
   
   // setto la posizione luce
   float tmpv[4] = {0,1,2,  0}; // ultima comp=0 => luce direzionale
   //float tmpv[4] = {0,0,0,  0};
   glLightfv(GL_LIGHT0, GL_POSITION, tmpv );
 
-  
-  // settiamo matrice di vista
-//  glTranslatef(0,0,-eyeDist);
-//  glRotatef(viewBeta,  1,0,0);
-//  glRotatef(viewAlpha, 0,1,0);
-//  glTranslatef(16, 0, -155.0);
-//  	glRotatef(90, 1, 0, 0);
-//  	glRotatef(0, 0, 1, 0);
   setCamera();
-
-  
   //drawAxis(); // disegna assi frame MONDO
-
   static float tmpcol[4] = {1,1,1,  1};
   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
   
   glEnable(GL_LIGHTING);
- 
   // settiamo matrice di modellazione
   //drawAxis(); // disegna assi frame OGGETTO
   //drawCubeWire();
   drawCone1(); // disegna i coni
-    drawCone2();
-    drawCone3();
-    drawCone4();
-    drawCone5();
+  drawCone2();
+  drawCone3();
+  drawCone4();
+  drawCone5();
   drawVia();// disegna la linea del traguardo
   drawSky(); // disegna il cielo come sfondo
   drawFloor(); // disegna il suolo
   drawPista(); // disegna la pista
   drawTabellone();
   drawBoard();
-
   car.Render(carColor); // disegna la macchina
 
-
-
-
-	
   // attendiamo la fine della rasterizzazione di 
   // tutte le primitive mandate 
   
@@ -517,47 +491,9 @@ void renderingGame(SDL_Window *win){
   	glVertex2d(displayWidth, displayHeight);
   	glVertex2d(0, displayHeight);
   	glVertex2d(0, 0);
-
   	glEnd();
-
   	// settiamo il viewport  dello score
 	glViewport(displayWidth - displayWidth / 4, displayHeight / 1.2 , displayWidth / 1.5, displayHeight - displayHeight / 1.2);
-
-//	// settiamo la matrice di proiezione
-//	glMatrixMode( GL_PROJECTION);
-//	glLoadIdentity();
-//	gluPerspective(70, //fovy,
-//			((float) displayWidth) / displayHeight, //aspect Y/X,
-//			0.2, //distanza del NEAR CLIPPING PLANE in coordinate vista
-//			1000  //distanza del FAR CLIPPING PLANE in coordinate vista
-//			);
-//
-//	glMatrixMode( GL_MODELVIEW);
-//	glLoadIdentity();
-//
-//	// settiamo matrice di vista
-////	glTranslatef(-120, -33, -140.0);
-////	glRotatef(90, 1, 0, 0);
-////	glRotatef(90, 0, 1, 0);
-//
-//	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
-//	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
-//
-//
-//
-////	drawFloor(); // disegna il suolo
-////	drawPista(); // disegna la pista
-////
-////	drawVia();
-////	car.Render(carColor); // disegna la macchina
-//
-//	// attendiamo la fine della rasterizzazione di
-//	// tutte le primitive mandate
-//
-//	glDisable(GL_DEPTH_TEST);
-//	glDisable(GL_LIGHTING);
-
-
 	SetCoordToPixel();
 	glColor3f(0, 0, 0);
 	glBegin(GL_LINE_LOOP);
@@ -660,22 +596,11 @@ int startMenuIniziale (Uint32 windowID,SDL_Window *win){
 				  }
 				  break;
 
-//	    	  	  case SDLK_ESCAPE: {
-//	    	  		  	done=1;
-//	    	  		  cout << "dio cane";
-//	    	  	  }
-//	    	  	  break;
-
-//	    	  	  case SDL_QUIT: {
-//	    	  		done=1;
-//	    	  		//done=1;
-//	    	  		cout << "dio cane";
-//	    	  	  }
 	    	  	  //break;
 	    	  	  case SDL_WINDOWEVENT:
 	    	  		  // dobbiamo ridisegnare la finestra
 	    	  		  if (event.window.event==SDL_WINDOWEVENT_EXPOSED){
-	    	  			  //renderFirtScene(win,carColor);
+
 	    	  			  done=0;
 	    	  		  }else{
 	    	  			  windowID = SDL_GetWindowID(win);
