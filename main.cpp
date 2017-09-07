@@ -16,12 +16,11 @@
 using namespace glm;
 using namespace std;
 
-#define CAMERA_BACK_CAR 3
-#define CAMERA_TOP_FIXED 1
-#define CAMERA_TOP_CAR 2
+
 #define CAMERA_PILOT 0
-#define CAMERA_MOUSE 4
-#define CAMERA_TYPE_MAX 5
+#define CAMERA_BACK_CAR 1
+#define CAMERA_MOUSE 2
+#define CAMERA_TYPE_MAX 3
 
 float viewAlpha=20, viewBeta=40; // angoli che definiscono la vista
 float eyeDist=5.0; // distanza dell'occhio dall'origine
@@ -217,31 +216,7 @@ void setCamera(){
                 cz = pz - camd*cosf;
                 gluLookAt(ex,ey,ez,cx,cy,cz,0.0,1.0,0.0);
                 break;
-        case CAMERA_TOP_FIXED:
-                camd = 0.5;
-                camh = 0.55;
-                angle = car.facing + 40.0;
-                cosff = cos(angle*M_PI/180.0);
-                sinff = sin(angle*M_PI/180.0);
-                ex = px + camd*sinff;
-                ey = py + camh;
-                ez = pz + camd*cosff;
-                cx = px - camd*sinf;
-                cy = py + camh;
-                cz = pz - camd*cosf;
-                gluLookAt(ex,ey,ez,cx,cy,cz,0.0,1.0,0.0);
-                break;
-        case CAMERA_TOP_CAR:
-                camd = 2.5;
-                camh = 1.0;
-                ex = px + camd*sinf;
-                ey = py + camh;
-                ez = pz + camd*cosf;
-                cx = px - camd*sinf;
-                cy = py + camh;
-                cz = pz - camd*cosf;
-                gluLookAt(ex,ey+5,ez,cx,cy,cz,0.0,1.0,0.0);
-                break;
+
         case CAMERA_PILOT:
                 //camd = 0.2;
         		camd = 0.05;
@@ -732,12 +707,13 @@ static int keymap[Controller::NKEYS] = {SDLK_a, SDLK_d, SDLK_w, SDLK_s};
       case SDL_KEYDOWN:
         car.controller.EatKey(e.key.keysym.sym, keymap , true);
         if (e.key.keysym.sym==SDLK_F1) cameraType=(cameraType+1)%CAMERA_TYPE_MAX;
-        if (e.key.keysym.sym==SDLK_F2) useWireframe=!useWireframe;
+        //gestione dei tasti funzione
+      /*  if (e.key.keysym.sym==SDLK_F2) useWireframe=!useWireframe;
         if (e.key.keysym.sym==SDLK_F3) useEnvmap=!useEnvmap;
         if (e.key.keysym.sym==SDLK_F4){
         	useHeadlight=!useHeadlight;
         }
-        if (e.key.keysym.sym==SDLK_F5) useShadow=!useShadow;
+        if (e.key.keysym.sym==SDLK_F5) useShadow=!useShadow;*/
         if(fineGioco){
         	car.rallenta();
         }
