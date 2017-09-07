@@ -708,12 +708,6 @@ static int keymap[Controller::NKEYS] = {SDLK_a, SDLK_d, SDLK_w, SDLK_s};
         car.controller.EatKey(e.key.keysym.sym, keymap , true);
         if (e.key.keysym.sym==SDLK_F1) cameraType=(cameraType+1)%CAMERA_TYPE_MAX;
         //gestione dei tasti funzione
-      /*  if (e.key.keysym.sym==SDLK_F2) useWireframe=!useWireframe;
-        if (e.key.keysym.sym==SDLK_F3) useEnvmap=!useEnvmap;
-        if (e.key.keysym.sym==SDLK_F4){
-        	useHeadlight=!useHeadlight;
-        }
-        if (e.key.keysym.sym==SDLK_F5) useShadow=!useShadow;*/
         if(fineGioco){
         	car.rallenta();
         }
