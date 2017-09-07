@@ -68,6 +68,9 @@ void Mesh::RenderWire(){
   }
 }
 
+
+
+
 // Render usando la normale per faccia (FLAT SHADING)
 void Mesh::RenderNxF()
 {
