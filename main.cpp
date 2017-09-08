@@ -47,6 +47,7 @@ float fps=0; // valore di fps dell'intervallo precedente
 int fpsNow=0; // quanti fotogrammi ho disegnato fin'ora nell'intervallo attuale
 Uint32 timeLastInterval=0; // quando e' cominciato l'ultimo intervallo
 
+//funzione esterne dichiarate nella calsse car
 extern void drawPista();
 extern void drawTabellone();
 extern void drawBoard();
@@ -70,10 +71,10 @@ void  SetCoordToPixel(){
   glScalef(2.0/scrW, 2.0/scrH, 1);
 }
 
+//funzione che permette di caricare una texture
 bool LoadTexture(int textbind,char *filename){
   SDL_Surface *s = IMG_Load(filename);
   if (!s) return false;
-  
   glBindTexture(GL_TEXTURE_2D, textbind);
   gluBuild2DMipmaps(
     GL_TEXTURE_2D, 
@@ -99,14 +100,12 @@ void drawAxis(){
   const float K=0.10;
   glColor3f(0,0,1);
   glBegin(GL_LINES);
-    glVertex3f( -1,0,0 );
-    glVertex3f( +1,0,0 );
-
-    glVertex3f( 0,-1,0 );
-    glVertex3f( 0,+1,0 );
-
-    glVertex3f( 0,0,-1 );
-    glVertex3f( 0,0,+1 );
+  glVertex3f( -1,0,0 );
+  glVertex3f( +1,0,0 );
+  glVertex3f( 0,-1,0 );
+  glVertex3f( 0,+1,0 );
+  glVertex3f( 0,0,-1 );
+  glVertex3f( 0,0,+1 );
   glEnd();
   
   glBegin(GL_TRIANGLES);
@@ -218,9 +217,7 @@ void setCamera(){
                 break;
 
         case CAMERA_PILOT:
-                //camd = 0.2;
         		camd = 0.05;
-                //camh = 0.55;
                 camh = 0.45;
                 ex = px + camd*sinf;
                 ey = py + camh;
@@ -229,7 +226,6 @@ void setCamera(){
                 cy = py + camh;
                 cz = pz - camd*cosf;
                 gluLookAt(ex,ey,ez,cx,cy,cz,0.0,1.0,0.0);
-
                 break;
         case CAMERA_MOUSE:
                 glTranslatef(0,0,-eyeDist);
@@ -278,14 +274,12 @@ void renderString(float x, float y, std::string text){
   glOrtho(0.0, 640, 480, 0.0, -1.0f, 1.0f);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
   glColor3f(0, 0, 0);
   glRasterPos2f(x, y);
   char tab2[1024];
   strncpy(tab2, text.c_str(), sizeof(tab2));
   tab2[sizeof(tab2) - 1] = 0;
   glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, (const unsigned char *)tab2);
-
   glPopAttrib();
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
@@ -295,12 +289,9 @@ void renderString(float x, float y, std::string text){
 /*Questa funzione viene invocata per visualizzare la schermata di avvio del gioco. Nella prima schermata viene data la possibilita'
  * all'utente di poter selezionare il colore della vettura con cui giocare*/
 void renderFirtScene(SDL_Window *win, int color){
-
 	  fpsNow++;
 	  glLineWidth(5); // linee larghe
-	  // settiamo il viewport
-	 // glViewport(0,scrH/2, scrW/3, scrH/2);
-	  // colore sfondo = nero
+      //configuro il colore dello sfondo
 	  glClearColor(1,1,1,1);
 	  // settiamo la matrice di proiezione
 	  glMatrixMode( GL_PROJECTION );
@@ -321,14 +312,11 @@ void renderFirtScene(SDL_Window *win, int color){
 	  glTranslatef(0,0,-eyeDist);
 	  glRotatef(viewBeta,  1,0,0);
 	  glRotatef(viewAlpha, 0,1,0);
-
 	  //drawAxis(); // disegna assi frame MONDO
 	  static float tmpcol[4] = {1,1,1,1};
 	  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
 	  glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
-
-	   // car.Render(0.15,1); // disegna la macchina
-	  //glViewport(0,scrH/2, scrW/3, scrH/2);
+	  //disegno la vattuara posizionata al centro dello schermo
 	  glViewport(0,0, displayWidth, displayHeight);
 	  car.Render(color);
 
@@ -337,14 +325,9 @@ void renderFirtScene(SDL_Window *win, int color){
 	//glViewport(0,scrW, scrW, 100);
 	glViewport(displayWidth*0.4,displayHeight*0.8,50,50);
 	renderString(0.0,0.0, "Progetto Esame Grafica 2017");
-
 	glViewport(displayWidth*0.25,displayHeight*0.7,30,30);
 	renderString(0.0,0.0, "Premi il tasto \"1\", \"2\" o \"3\" per scegliere il colore dell'auto e poi INVIO per iniziare a giocare");
-
-
 	glViewport(0,0, scrW, scrH/2);
-		//car.Render();
-
 	glFinish();
 
 	// ho finito: buffer di lavoro diventa visibile
@@ -373,7 +356,6 @@ void renderingGame(SDL_Window *win){
   glLoadIdentity();
   // riempe tutto lo screen buffer di pixel color sfondo
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
   
   // setto la posizione luce
   float tmpv[4] = {0,1,2,  0}; // ultima comp=0 => luce direzionale
@@ -387,9 +369,8 @@ void renderingGame(SDL_Window *win){
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
   
   glEnable(GL_LIGHTING);
-  // settiamo matrice di modellazione
-  //drawAxis(); // disegna assi frame OGGETTO
-  //drawCubeWire();
+
+  //invoco tutte le funzioni che disegnano i rispettivi oggetti grafici collocati all'inerno della scena
   drawCone1(); // disegna i coni
   drawCone2();
   drawCone3();
@@ -399,8 +380,8 @@ void renderingGame(SDL_Window *win){
   drawSky(); // disegna il cielo come sfondo
   drawFloor(); // disegna il suolo
   drawPista(); // disegna la pista
-  drawTabellone();
-  drawBoard();
+  drawTabellone(); // disegna il tabellone
+  drawBoard(); // disegna lo sfondo del tabellone su cui è applicata l'iimagine di sfondo
   car.Render(carColor); // disegna la macchina
 
   // attendiamo la fine della rasterizzazione di 
@@ -423,9 +404,9 @@ void renderingGame(SDL_Window *win){
   glVertex2d(0,0);
   glEnd();
   
+  //Gestione del viewport laterale della vista dall'alto pista
   	// settiamo il viewport vista dall'alto pista
   	glViewport(displayWidth - displayWidth / 4, 0, displayWidth / 1.5, displayHeight / 1.2);
-
   	// settiamo la matrice di proiezione
   	glMatrixMode( GL_PROJECTION);
   	glLoadIdentity();
@@ -445,28 +426,25 @@ void renderingGame(SDL_Window *win){
 
   	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
   	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
-
-  	drawFloor(); // disegna il suolo
-  	drawPista(); // disegna la pista
-
+  	//
+  	drawFloor(); // disegna il suolo nel viewport laterale vista dall'alto pista
+  	drawPista(); // disegna la pista nel viewport laterale vista dall'alto pista
   	drawVia();
-  	car.Render(carColor); // disegna la macchina
-
+  	car.Render(carColor); // disegna la macchina nel viewport laterale vista dall'alto pista
   	// attendiamo la fine della rasterizzazione di
   	// tutte le primitive mandate
-
   	glDisable(GL_DEPTH_TEST);
   	glDisable(GL_LIGHTING);
-
   	SetCoordToPixel();
   	glColor3f(0, 0, 0);
   	glBegin(GL_LINE_LOOP);
-
   	glVertex2d(displayWidth, 0);
   	glVertex2d(displayWidth, displayHeight);
   	glVertex2d(0, displayHeight);
   	glVertex2d(0, 0);
   	glEnd();
+
+  	//Gestione dello score board
   	// settiamo il viewport  dello score
 	glViewport(displayWidth - displayWidth / 4, displayHeight / 1.2 , displayWidth / 1.5, displayHeight - displayHeight / 1.2);
 	SetCoordToPixel();
@@ -483,21 +461,15 @@ void renderingGame(SDL_Window *win){
 	int numCono = 5 - car.contaColpito();
 	ostringstream convert;
 	convert << numCono;
-
-	//std::string s = std::to_string(42);
-
-
+	// gestione dei feedback visivi nello score board
 	if(numCono == 5){
 		renderString(80, 200, "HAI VINTO");
 		fineGioco = true;
 	}else{
 		renderString(80, 200, "Score: " + convert.str());
 	}
-
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
-  
-  
   glFinish();
   // ho finito: buffer di lavoro diventa visibile
   SDL_GL_SwapWindow(win);
@@ -531,42 +503,22 @@ int startMenuIniziale (Uint32 windowID,SDL_Window *win){
 	    	  		  break;
 	    	  }
 	    	  switch (event.key.keysym.sym) {
-
 	    	  	  case SDLK_1: {
-	    	  			//done=true;
 	    	  		  	carColor=1;
-	    	  			printf("%s\n", "Spinto bottone 1");
-	    	  			//LoadTexture(4,(char *)"white.jpg");
-
 	    	  			renderFirtScene(win,carColor);
 	    	  	  }
 	    	  	  break;
 	    	  	  case SDLK_2: {
-	    	  	    	//done=true;
 	    	  		  	carColor=2;
-	    	  	    	printf("%s\n", "Spinto bottone 2");
-	    	  	    	//LoadTexture(1,(char *)"white.jpg");
-
 	    	  	    	renderFirtScene(win,carColor);
 	    	  	  }
 	    	  	  break;
 	    	  	  case SDLK_3: {
-	    	  	    	//done=true;
 	    	  		  	carColor=3;
-	    	  	    	printf("%s\n", "Spinto bottone 3");
-	    	  	    	//LoadTexture(1,(char *)"white.jpg");
-
-	    	  	    	//glViewport(0,0,scrW,scrH);
 	    	  	    	renderFirtScene(win,carColor);
 	    	  	  }
 	    	  	  break;
 	    	  	  case SDLK_RETURN: {
-						//done=true;
-						//carColor=3;
-						printf("%s\n", "Spinto enter");
-						//LoadTexture(1,(char *)"white.jpg");
-
-						//glViewport(0,0,scrW,scrH);
 						done = true;
 				  }
 				  break;
@@ -632,8 +584,6 @@ int startMenuIniziale (Uint32 windowID,SDL_Window *win){
 	  }
 
 	//SDL_GL_DeleteContext(mainContext);
-
-
 }
 
 int main(int argc, char* argv[])
@@ -675,7 +625,7 @@ static int keymap[Controller::NKEYS] = {SDLK_a, SDLK_d, SDLK_w, SDLK_s};
                                     // frammenti generati dalla
                                     // rasterizzazione poligoni
   glPolygonOffset(1,1);             // indietro di 1
-  
+  //Gestione del mapping delle texture
   if (!LoadTexture(0,(char *)"logo.jpg")) return 0;
   if (!LoadTexture(1,(char *)"envmap_flipped.jpg")) return 0;
   if (!LoadTexture(2,(char *)"sky_ok.jpg")) return -1;

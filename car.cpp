@@ -150,12 +150,12 @@ void SetupTrackTexture(Point3 min, Point3 max){
 
 
 void checkColpito(Mesh *cone,float carMinX, float carMinZ,float carMaxX, float carMaxZ){
-	//Mesh *pcone = &cone;
+	//calcolo le coordinate X e Z dell'oggetto cono
 	float coneCentX = cone->Center().X() + cone->positionCone[0]; // X
 	float coneCentZ = cone->Center().Z() + cone->positionCone[1]; // Z
 
 	if ((coneCentX > carMinX) && (coneCentX < carMaxX) && (coneCentZ > carMinZ) && (coneCentZ < carMaxZ)) {
-	  cout << "colpitoCone: " << cone->idCono << endl;
+
 	  switch (cone->idCono) {
 		case 1:
 			colpitoCone1 = true;
@@ -268,7 +268,7 @@ void Car::DoStep(){
   px+=vx;
   py+=vy;
   pz+=vz;
-
+  // calcolo le coordinate della vettura attraverso i // bounding box
   float carMinX = (carlinga.bbmin.X() / 3) +px;
   float carMinZ = (carlinga.bbmin.Z() / 3) +pz;
   float carMaxX = (carlinga.bbmax.X() / 3) +px;
@@ -279,10 +279,6 @@ void Car::DoStep(){
   checkColpito(&cone3,carMinX,carMinZ,carMaxX,carMaxZ);
   checkColpito(&cone4,carMinX,carMinZ,carMaxX,carMaxZ);
   checkColpito(&cone5,carMinX,carMinZ,carMaxX,carMaxZ);
-
-  if(checkWin()){
-	  cout << "HAI VINTO" << endl;
-  }
 
 } 
 
@@ -373,7 +369,6 @@ void drawPista () {
         glTranslatef(0,0.01,0);
         pista.RenderNxF();
         glPopMatrix();
-
 }
 
 void SetupParabrezzaTexture(Point3 min, Point3 max){
