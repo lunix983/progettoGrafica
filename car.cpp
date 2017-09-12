@@ -22,7 +22,8 @@
 
 // var globale di tipo mesh
 
-Mesh carlinga((char *)"A8_custom.obj");
+//Mesh carlinga((char *)"A8_custom.obj");
+Mesh carlinga((char *)"new_car.obj");
 Mesh wheelBR1((char *)"wheel_metal_back_A8.obj");
 Mesh wheelFR1((char *)"wheel_metal_front_A8.obj");
 Mesh pista((char *)"pista_media_new.obj");
