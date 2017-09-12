@@ -26,6 +26,7 @@ Mesh carlinga((char *)"A8_custom.obj");
 Mesh wheelBR1((char *)"wheel_metal_back_A8.obj");
 Mesh wheelFR1((char *)"wheel_metal_front_A8.obj");
 Mesh pista((char *)"pista_media_new.obj");
+Mesh pistaLaterale((char *)"pista_media_new.obj");
 Mesh vetri((char *)"glass_A8.obj");
 Mesh tabellone((char *)"tabellone.obj");
 Mesh boardFoto((char *)"boardFoto.obj");
@@ -148,7 +149,8 @@ void SetupTrackTexture(Point3 min, Point3 max){
 	  glTexGenfv(GL_T, GL_OBJECT_PLANE, t);
 }
 
-
+//funzione core del gioco verifica se la vettura ha colpito un dei birillo. In caso positivo viene
+//settata a true la variabile booleana che identifica se uno specifico birillo è stato colpito
 void checkColpito(Mesh *cone,float carMinX, float carMinZ,float carMaxX, float carMaxZ){
 	//calcolo le coordinate X e Z dell'oggetto cono
 	float coneCentX = cone->Center().X() + cone->positionCone[0]; // X
@@ -179,14 +181,7 @@ void checkColpito(Mesh *cone,float carMinX, float carMinZ,float carMaxX, float c
 	}
 }
 
-bool checkWin(){
-	if(colpitoCone1 && colpitoCone2 && colpitoCone3 && colpitoCone4 && colpitoCone5){
-		return true;
-	}else{
-		return false;
-	}
-}
-/*Questo metodo conta quanti oggetti cono NON sono stati colpiti*/
+/*Questo metodo restituisce il numero di coni che NON sono stati ancora colpiti*/
 int Car::contaColpito(){
 	//int soglia = 5;
 	int count = 0;
@@ -205,7 +200,6 @@ int Car::contaColpito(){
 	if(!colpitoCone5){
 			count++;
 		}
-
 	return count;
 }
 
@@ -268,7 +262,8 @@ void Car::DoStep(){
   px+=vx;
   py+=vy;
   pz+=vz;
-  // calcolo le coordinate della vettura attraverso i // bounding box
+  // calcolo le coordinate della vettura attraverso i bounding box per poterle passare come parametri
+  // alla funzione checkColpito
   float carMinX = (carlinga.bbmin.X() / 3) +px;
   float carMinZ = (carlinga.bbmin.Z() / 3) +pz;
   float carMaxX = (carlinga.bbmax.X() / 3) +px;
@@ -292,7 +287,6 @@ void drawCone1() {
         glScalef(0.12,0.15,0.14);
         cone1.setPosCone(22.75,-2.0);
         cone1.idCono = 1;
-       // SetupConeTexture();
         cone1.RenderNxV();
         glPopMatrix();
         SetupConeTexture();
@@ -347,19 +341,16 @@ void drawCone5() {
         SetupConeTexture();
 }
 
-void drawCone6() {
+void drawCone() {
         glPushMatrix();
         glColor3f(1, 1, 1);
-//        glTranslatef(22.75,0.05,-2.0);
-//        glScalef(0.12,0.15,0.14);
-        //cone6.setPosCone(22.75,-2.0);
+        glTranslatef(-40.0,0.05,2.0); //togliere
+        glScalef(0.12,0.15,0.14); //togliere
         cone6.idCono = 6;
-        //glRotatef(90,0,1,0);
-        //SetupTreeTexture(tree.bbmin,tree.bbmax);
-        //tree.ComputeBoundingBox();
         SetupConeTexture();
         cone6.RenderNxV();
         glPopMatrix();
+        SetupConeTexture();
 }
 
 void drawPista () {
@@ -370,6 +361,19 @@ void drawPista () {
         pista.RenderNxF();
         glPopMatrix();
 }
+
+
+void drawPistaLaterale (float viewportWidth, float viewportHeight) {
+        glPushMatrix();
+        glColor3f(0.3,0.3,0.3);
+        //glScalef(0.75, 1.0, 0.75);
+        glScalef(0.60, 0.0, 0.75 );
+        glTranslatef(0,0.01,0);
+        //pista.RenderNxF();
+        pistaLaterale.RenderNxF();
+        glPopMatrix();
+}
+
 
 void SetupParabrezzaTexture(Point3 min, Point3 max){
 

@@ -49,6 +49,7 @@ Uint32 timeLastInterval=0; // quando e' cominciato l'ultimo intervallo
 
 //funzione esterne dichiarate nella calsse car
 extern void drawPista();
+extern void drawPistaLaterale(float viewportWidth, float viewportHeight);
 extern void drawTabellone();
 extern void drawBoard();
 extern void drawVia();
@@ -57,7 +58,8 @@ extern void drawCone2();
 extern void drawCone3();
 extern void drawCone4();
 extern void drawCone5();
-extern void drawCone6();
+extern void drawCone();
+
 
 // setta le matrici di trasformazione in modo
 // che le coordinate in spazio oggetto siano le coord 
@@ -376,6 +378,7 @@ void renderingGame(SDL_Window *win){
   drawCone3();
   drawCone4();
   drawCone5();
+
   drawVia();// disegna la linea del traguardo
   drawSky(); // disegna il cielo come sfondo
   drawFloor(); // disegna il suolo
@@ -428,8 +431,10 @@ void renderingGame(SDL_Window *win){
   	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
   	//
   	drawFloor(); // disegna il suolo nel viewport laterale vista dall'alto pista
-  	drawPista(); // disegna la pista nel viewport laterale vista dall'alto pista
+  	//drawPista(); // disegna la pista nel viewport laterale vista dall'alto pista
+  	drawPistaLaterale (displayWidth / 1.5, displayHeight / 1.2);
   	drawVia();
+
   	car.Render(carColor); // disegna la macchina nel viewport laterale vista dall'alto pista
   	// attendiamo la fine della rasterizzazione di
   	// tutte le primitive mandate
@@ -455,13 +460,15 @@ void renderingGame(SDL_Window *win){
 	glVertex2d(displayWidth, displayHeight);
 	glVertex2d(0, displayHeight);
 	glVertex2d(0, 0);
-
+	drawCone();
 	glEnd();
-	drawCone6();
+
 	int numCono = 5 - car.contaColpito();
 	ostringstream convert;
 	convert << numCono;
-	// gestione dei feedback visivi nello score board
+	/* gestione dei feedback visivi nello score board e fine gioco
+	 se il metodo car.contaColpito() restituisce 0 allora vuol dire che tutti i birilli sono
+	 stati colpiti e determina la condizione di fine gioco*/
 	if(numCono == 5){
 		renderString(80, 200, "HAI VINTO");
 		fineGioco = true;
@@ -483,7 +490,7 @@ void redraw(){
   e.window.event=SDL_WINDOWEVENT_EXPOSED;
   SDL_PushEvent(&e);
 }
-
+//funzione che gestisce l'insermento dell'input utente per la scelta del colore della vettuara.
 int startMenuIniziale (Uint32 windowID,SDL_Window *win){
 	bool done=0;
 
