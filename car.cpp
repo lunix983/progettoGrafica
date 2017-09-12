@@ -27,7 +27,6 @@ Mesh carlinga((char *)"new_car.obj");
 Mesh wheelBR1((char *)"wheel_metal_back_dodge.obj");
 Mesh wheelFR1((char *)"wheel_metal_front_dodge.obj");
 Mesh pista((char *)"pista_media_new.obj");
-Mesh pistaLaterale((char *)"pista_media_new.obj");
 Mesh vetri((char *)"glass_dodge.obj");
 Mesh tabellone((char *)"tabellone.obj");
 Mesh boardFoto((char *)"boardFoto.obj");
@@ -360,18 +359,6 @@ void drawPista () {
         glScalef(0.75, 1.0, 0.75);
         glTranslatef(0,0.01,0);
         pista.RenderNxF();
-        glPopMatrix();
-}
-
-
-void drawPistaLaterale (float viewportWidth, float viewportHeight) {
-        glPushMatrix();
-        glColor3f(0.3,0.3,0.3);
-        //glScalef(0.75, 1.0, 0.75);
-        glScalef(0.60, 0.0, 0.75 );
-        glTranslatef(0,0.01,0);
-        //pista.RenderNxF();
-        pistaLaterale.RenderNxF();
         glPopMatrix();
 }
 

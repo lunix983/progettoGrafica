@@ -431,8 +431,8 @@ void renderingGame(SDL_Window *win){
   	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
   	//
   	drawFloor(); // disegna il suolo nel viewport laterale vista dall'alto pista
-  	//drawPista(); // disegna la pista nel viewport laterale vista dall'alto pista
-  	drawPistaLaterale (displayWidth / 1.5, displayHeight / 1.2);
+  	drawPista(); // disegna la pista nel viewport laterale vista dall'alto pista
+
   	drawVia();
 
   	car.Render(carColor); // disegna la macchina nel viewport laterale vista dall'alto pista
