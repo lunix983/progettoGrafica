@@ -219,8 +219,8 @@ void setCamera(){
                 break;
 
         case CAMERA_PILOT:
-        		camd = 0.05;
-                camh = 0.45;
+        		camd = 0.15;
+                camh = 0.56;
                 ex = px + camd*sinf;
                 ey = py + camh;
                 ez = pz + camd*cosf;
