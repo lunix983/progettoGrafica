@@ -442,12 +442,12 @@ void renderingGame(SDL_Window *win){
   	glDisable(GL_LIGHTING);
   	SetCoordToPixel();
   	glColor3f(0, 0, 0);
-  	glBegin(GL_LINE_LOOP);
-  	glVertex2d(displayWidth, 0);
-  	glVertex2d(displayWidth, displayHeight);
-  	glVertex2d(0, displayHeight);
-  	glVertex2d(0, 0);
-  	glEnd();
+//  	glBegin(GL_LINE_LOOP);
+//  	glVertex2d(displayWidth, 0);
+//  	glVertex2d(displayWidth, displayHeight);
+//  	glVertex2d(0, displayHeight);
+//  	glVertex2d(0, 0);
+//  	glEnd();
 
   	//Gestione dello score board
   	// settiamo il viewport  dello score
