@@ -453,15 +453,15 @@ void renderingGame(SDL_Window *win){
   	// settiamo il viewport  dello score
 	glViewport(displayWidth - displayWidth / 4, displayHeight / 1.2 , displayWidth / 1.5, displayHeight - displayHeight / 1.2);
 	SetCoordToPixel();
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINE_LOOP);
-
-	glVertex2d(displayWidth, 0);
-	glVertex2d(displayWidth, displayHeight);
-	glVertex2d(0, displayHeight);
-	glVertex2d(0, 0);
+//	glColor3f(0, 0, 0);
+//	glBegin(GL_LINE_LOOP);
+//
+//	glVertex2d(displayWidth, 0);
+//	glVertex2d(displayWidth, displayHeight);
+//	glVertex2d(0, displayHeight);
+//	glVertex2d(0, 0);
 	drawCone();
-	glEnd();
+	//glEnd();
 
 	int numCono = 5 - car.contaColpito();
 	ostringstream convert;
