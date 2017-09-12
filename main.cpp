@@ -611,8 +611,10 @@ static int keymap[Controller::NKEYS] = {SDLK_a, SDLK_d, SDLK_w, SDLK_s};
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
   SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
-  displayWidth = DM.w;
-  displayHeight = DM.h;
+  displayWidth = DM.w - 100;
+  displayHeight = DM.h - 50;
+//  displayWidth = 1000;
+//    displayHeight = 1200;
   // facciamo una finestra di scrW x scrH pixels
   win=SDL_CreateWindow(argv[0], 0, 0, displayWidth, displayHeight, SDL_WINDOW_OPENGL);
 
