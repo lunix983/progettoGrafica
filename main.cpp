@@ -24,7 +24,8 @@ using namespace std;
 
 float viewAlpha=20, viewBeta=40; // angoli che definiscono la vista
 float eyeDist=5.0; // distanza dell'occhio dall'origine
-int scrH=750, scrW=750; // altezza e larghezza viewport (in pixels)
+//int scrH=750, scrW=750; // altezza e larghezza viewport (in pixels)
+int scrH=720, scrW=1250;
 bool useWireframe=false;
 bool useEnvmap=true;
 bool useHeadlight=false;
@@ -49,7 +50,7 @@ Uint32 timeLastInterval=0; // quando e' cominciato l'ultimo intervallo
 
 //funzione esterne dichiarate nella calsse car
 extern void drawPista();
-extern void drawPistaLaterale(float viewportWidth, float viewportHeight);
+//extern void drawPistaLaterale(float viewportWidth, float viewportHeight);
 extern void drawTabellone();
 extern void drawBoard();
 extern void drawVia();
@@ -327,7 +328,8 @@ void renderFirtScene(SDL_Window *win, int color){
 	//glViewport(0,scrW, scrW, 100);
 	glViewport(displayWidth*0.4,displayHeight*0.8,50,50);
 	renderString(0.0,0.0, "Progetto Esame Grafica 2017");
-	glViewport(displayWidth*0.25,displayHeight*0.7,30,30);
+	//glViewport(displayWidth*0.25,displayHeight*0.7,30,30);
+	glViewport(displayWidth*0.15,displayHeight*0.7,30,30);
 	renderString(0.0,0.0, "Premi il tasto \"1\", \"2\" o \"3\" per scegliere il colore dell'auto e poi INVIO per iniziare a giocare");
 	glViewport(0,0, scrW, scrH/2);
 	glFinish();
@@ -343,7 +345,9 @@ void renderingGame(SDL_Window *win){
   fpsNow++;
   glLineWidth(3); // linee larghe
   // settiamo il viewport
-  glViewport(0,0, displayWidth - displayWidth/4, displayHeight);
+  //glViewport(0,0, displayWidth - displayWidth/4, displayHeight);
+  //provo il viewPort modificato
+  glViewport(0,0, scrW-scrW/4, scrH);
   // colore sfondo = bianco
   glClearColor(1,1,1,1);
   // settiamo la matrice di proiezione
@@ -409,12 +413,17 @@ void renderingGame(SDL_Window *win){
   
   //Gestione del viewport laterale della vista dall'alto pista
   	// settiamo il viewport vista dall'alto pista
-  	glViewport(displayWidth - displayWidth / 4, 0, displayWidth / 1.5, displayHeight / 1.2);
+  	//glViewport(displayWidth - displayWidth / 4, 0, displayWidth / 1.5, displayHeight / 1.2);
+  	// setto il viewPort vista dall'alto modificato
+  	glViewport(scrW-scrW/4,0,scrW ,scrH-150);
+
   	// settiamo la matrice di proiezione
   	glMatrixMode( GL_PROJECTION);
   	glLoadIdentity();
   	gluPerspective(70, //fovy,
-  			((float) displayWidth) / displayHeight, //aspect Y/X,
+  			((float)scrW) / scrH,//aspect Y/X,
+  			//((float) displayWidth) / displayHeight, //aspect Y/X,
+
   			0.2, //distanza del NEAR CLIPPING PLANE in coordinate vista
   			1000  //distanza del FAR CLIPPING PLANE in coordinate vista
   			);
@@ -423,7 +432,8 @@ void renderingGame(SDL_Window *win){
   	glLoadIdentity();
 
   	// settiamo matrice di vista
-  	glTranslatef(-134, -33, -140.0);
+  	//glTranslatef(-134, -33, -140.0);
+  	glTranslatef(-162, -40, -140.0);
   	glRotatef(90, 1, 0, 0);
   	glRotatef(90, 0, 1, 0);
 
@@ -442,17 +452,21 @@ void renderingGame(SDL_Window *win){
   	glDisable(GL_LIGHTING);
   	SetCoordToPixel();
   	glColor3f(0, 0, 0);
-//  	glBegin(GL_LINE_LOOP);
-//  	glVertex2d(displayWidth, 0);
-//  	glVertex2d(displayWidth, displayHeight);
-//  	glVertex2d(0, displayHeight);
-//  	glVertex2d(0, 0);
-//  	glEnd();
+  	glBegin(GL_LINE_LOOP);
+  	glVertex2d(displayWidth, 0);
+  	glVertex2d(displayWidth, displayHeight);
+  	glVertex2d(0, displayHeight);
+  	glVertex2d(0, 0);
+  	glEnd();
 
   	//Gestione dello score board
   	// settiamo il viewport  dello score
-	glViewport(displayWidth - displayWidth / 4, displayHeight / 1.2 , displayWidth / 1.5, displayHeight - displayHeight / 1.2);
-	SetCoordToPixel();
+	//glViewport(displayWidth - displayWidth / 4, displayHeight / 1.2 , displayWidth / 1.5, displayHeight - displayHeight / 1.2);
+
+  	// setto il viewPort dello score modificato
+  	glViewport(scrW-scrW/4,scrW/4,scrW/4 ,scrH-scrW/4-2);
+
+  	SetCoordToPixel();
 //	glColor3f(0, 0, 0);
 //	glBegin(GL_LINE_LOOP);
 //
@@ -470,10 +484,12 @@ void renderingGame(SDL_Window *win){
 	 se il metodo car.contaColpito() restituisce 0 allora vuol dire che tutti i birilli sono
 	 stati colpiti e determina la condizione di fine gioco*/
 	if(numCono == 5){
-		renderString(80, 200, "HAI VINTO");
+		//renderString(80, 200, "HAI VINTO");
+		renderString(80, 100, "HAI VINTO");
 		fineGioco = true;
 	}else{
-		renderString(80, 200, "Score: " + convert.str());
+		//renderString(80, 200, "Score: " + convert.str());
+		renderString(80, 100, "Score: " + convert.str());
 	}
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
@@ -599,7 +615,9 @@ SDL_Window *win;
 SDL_GLContext mainContext;
 Uint32 windowID;
 SDL_Joystick *joystick;
-static int keymap[Controller::NKEYS] = {SDLK_a, SDLK_d, SDLK_w, SDLK_s};
+//static int keymap[Controller::NKEYS] = {SDLK_a, SDLK_d, SDLK_w, SDLK_s};
+static int keymap[Controller::NKEYS] = {SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN};
+
   glutInit(&argc, argv);
   // inizializzazione di SDL
   SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
@@ -611,12 +629,20 @@ static int keymap[Controller::NKEYS] = {SDLK_a, SDLK_d, SDLK_w, SDLK_s};
   SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
   SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
-  displayWidth = DM.w - 100;
-  displayHeight = DM.h - 50;
-//  displayWidth = 1000;
-//    displayHeight = 1200;
+ // displayWidth = DM.w;
+ // displayHeight = DM.h;
+  //cout << "displayWidth" << DM.w;
+  //cout << "displayHeight" << DM.h;
+  // displayWidth = DM.w - 100;
+
+  //displayHeight = DM.h - 50;
+  displayWidth = scrW;
+  displayHeight = scrH;
+  //displayWidth = 1000;
+  //displayHeight = 1200;
   // facciamo una finestra di scrW x scrH pixels
-  win=SDL_CreateWindow(argv[0], 0, 0, displayWidth, displayHeight, SDL_WINDOW_OPENGL);
+  //win=SDL_CreateWindow(argv[0], 0, 0, displayWidth, displayHeight, SDL_WINDOW_OPENGL);
+  win=SDL_CreateWindow(argv[0], 0, 0, scrW, scrH, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
 
   //Create our opengl context and attach it to our window
   mainContext=SDL_GL_CreateContext(win);
